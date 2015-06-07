@@ -50,3 +50,15 @@ Some things are unfortunately not in `wrap` (yes, globals in general are bad).
 	print uidict["editor"].get_text()
 	print uidict["animadj"].upper
 	uidict["animadj"].upper = 10
+
+# Adding ipyconsole #
+
+Get `ipyconsole` from another repository and add its path to your PYTHONPATH. Then run
+
+    import ipyconsole
+    scrolled_window, ipyview = ipyconsole.scrolled_ipyconsole(500, 300, user_global_ns = {"wrap":wrap})
+    wrap.top.add(scrolled_window)
+    scrolled_window.show_all()
+    scrolled_window.parent.reorder_child(scrolled_window, 0)
+
+in the python (not IPython) console. Or you can change the last 3 lines to put it somewhere else.
