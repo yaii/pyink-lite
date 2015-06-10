@@ -7,13 +7,11 @@ from uielem import ui, uidict
 import traceback
 
 class Wrapper:
-  def __init__(self, desktop, window, inkscape):
+  def __init__(self, desktop, window):
     self.xml = XML(desktop)
     self.window = window
     self.top = None
-    self.inkscape = inkscape
-
-    inkscape.connect('change_selection', self.changesel)
+    pybInkscape.connect('selection_changed', self.changesel)
 
   def show(self):
     if self.top == None and not self.window:
@@ -53,7 +51,7 @@ class Wrapper:
     return [ui(gtk.Button, name, on_clicked = (self.pressbutton, name))
             for name in ["Reload code", "Set"]]
 
-  def changesel(self, inkscape, obj):
+  def changesel(self, obj):
     print "Changed selection"
     self.xml.update()
     if self.xml.selection:
@@ -73,6 +71,8 @@ class Wrapper:
       self.xml.update()
 
   def eval(self, widget):
+    global wrap
+    wrap = self
     cmd = self.console.get_text()
     self.xml.update()
     print ">>> %s" % cmd
